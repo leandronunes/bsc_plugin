@@ -1,0 +1,101 @@
+---+ BscPlugin
+
+This plugin is usefull to brazilian developers. It generate the models Country, State 
+and City and load the database with all brasilians states and all brasilians cities.
+
+---++ Preparing your System
+
+Run the command:
+
+  ./script/generate bsc_migration
+
+To create the migration file that will contain the definition of country, state and city objects. 
+
+Besides upgrade your database (rake db:migrate)
+
+Now the plugin is ready to be used.
+
+---++ Using the Plugin
+
+You can populate your database using the rake scripts available on plugin.
+
+---+++ Rake commands
+
+To populate your database with all countries and brasilian states and cities run the command:
+
+  rake bsc_plugin:all
+
+If you want cities of a specific brasilian state, run the command
+
+  rake bsc_plugin:"state"
+
+All the brasilian states are available on plugin:
+
+"Santa Catarina", "Maranhao", "Distrito Federal", "Amazonas", "Sergipe", "Goias", "Rondonia", "Rio Grande Do Sul", "Espirito Santo", "Acre", "Para", "Mato Grosso Do Sul", "Rio De Janeiro", "Mato Grosso", "Bahia", "Alagoas", "Roraima", "Minas Gerais", "Ceara", "Parana", "Paraiba", "Tocantis", "Sao Paulo", "Piaui", "Pernambuco", "Amapa"
+
+The commands:
+
+rake bsc_plugin:countries and  rake bsc_plugin:states
+
+loads all the countries and brasilian states respectively.
+
+---+++ Models
+
+This plugin provides the classes:
+   - BSC::Country
+   - BSC::State
+   - BSC::City
+
+Examples:
+  country = BSC::Country.new
+  country.name = 'A Country'
+  country.save
+
+  state = BSC::State.new(:name => 'A State')
+  state.country = c
+  state.save
+
+  city = BSC::city.new(:name => 'A city', :state => state, :zip_code => '40.000-000')
+  city.country = c
+  city.save
+
+---+++ Helpers
+
+The select_country method generates a html select element with all countries as options. If the collection is passed as
+argument the optoins will  be the collection.
+
+select_country(object, method, collection, options, html_options)
+
+
+Examples:
+
+  select_country('organization', 'country', ['Brazil', 'France'], {:include_blank =>true}, :class => 'my_country')
+
+  select_country('organization', 'country')
+
+
+The select_state method generates a html select element with all the states of a given country as option.
+
+select_state(country, object, method, collection, options, html_options)
+
+
+Examples:
+
+  select_state(BSC::Country.find(:first), 'organization', 'state')
+
+  select_state('Brazil', 'organization', 'state')
+
+
+The select_city method generates a html select element with all the cities of a given state as option.
+
+select_city(state, object, method, collection, options, html_options)
+
+
+Examples:
+
+  select_city(BSC::State.find(:first), 'organization', 'city')
+
+  select_city('Bahia', 'organization', 'city')
+
+
+
