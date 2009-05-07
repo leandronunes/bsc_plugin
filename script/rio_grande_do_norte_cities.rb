@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 require File.dirname(__FILE__) + '/../../../../config/environment'
 
+include BSC
+
 country = BSC::Country.find_by_name('Brazil')
 country ||= BSC::Country.create(:name => 'Brazil') 
 
