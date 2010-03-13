@@ -2,8 +2,9 @@ module BSC
 
   class State < ActiveRecord::Base
 
-    has_many :cities, :dependent => :destroy
-    belongs_to :country
+    has_many :cities, :class_name => 'BSC::City', :dependent => :destroy
+    belongs_to :country, :class_name => 'BSC::Country', :foreign_key => :country_id
+
 
     validates_presence_of :name
     validates_presence_of :country_id
